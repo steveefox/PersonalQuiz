@@ -7,6 +7,6 @@
 //
 
 struct Topic {
-    var name: String
-    var description: String
+    var anotherName: Int
+    var anotherDescription: Int
 }
