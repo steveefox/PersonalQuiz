@@ -6,4 +6,7 @@
 //  Copyright © 2020 Alexey Efimov. All rights reserved.
 //
 
-import Foundation
+struct Topic {
+    var name: String
+    var description: String
+}

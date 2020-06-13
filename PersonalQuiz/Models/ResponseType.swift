@@ -11,3 +11,11 @@ enum ResponseType {
     case multiple
     case ranged
 }
+
+
+// some comment
+
+enum SomeEnum {
+    case someCase1
+    case someCase2
+}
