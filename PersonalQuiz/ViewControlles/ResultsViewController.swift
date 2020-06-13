@@ -14,15 +14,16 @@ class ResultsViewController: UIViewController {
     @IBOutlet weak var descriptionOfResultLabel: UILabel!
     
     
-     var answersChoosen: [Answer] = []
-     
+    var answersChoosen: [Answer] = []
+    var mostPopularAnimal: AnimalType?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let resultAnimal = determinationResultOf(answersChoosen)
-        resultLabel.text = "Вы \(resultAnimal.rawValue)"
-        descriptionOfResultLabel.text = resultAnimal.definition
+        determinationResultOf(answersChoosen)
+        resultLabel.text = "Вы \(mostPopularAnimal!.rawValue)"
+        descriptionOfResultLabel.text = mostPopularAnimal?.definition
     }
     
     deinit {
@@ -35,34 +36,26 @@ class ResultsViewController: UIViewController {
 
 extension ResultsViewController {
     
-    func determinationResultOf(_ answerChoosen: [Answer]) -> AnimalType {
-        var resultAnimal: AnimalType = .dog
+    func determinationResultOf(_ answerChoosen: [Answer]) {
         
-        var choices: [AnimalType: Int] = [
-            .dog : 0,
-            .cat : 0,
-            .turtle: 0,
-            .rabbit: 0
-        ]
+        var choices: [AnimalType: Int] = [:]
         
-        for answer in answersChoosen {
-            switch answer.type {
-            case .dog: choices.updateValue(+1, forKey: .dog)
-            case .cat: choices.updateValue(+1, forKey: .cat)
-            case .turtle: choices.updateValue(+1, forKey: .turtle)
-            case .rabbit: choices.updateValue(+1, forKey: .rabbit)
+        for animal in answersChoosen {
+            if let animalType = choices[animal.type] {
+                choices.updateValue(animalType + 1, forKey: animal.type)
+            } else {
+                choices[animal.type] = 1
             }
+            
         }
         
-        for choice in choices {
-            var maxChoices = choice
-            if choice.value > maxChoices.value {
-                maxChoices = choice
-            }
-            resultAnimal = maxChoices.key
-        }
         
-        return resultAnimal
+        let sortedChoices = choices.sorted{ $0.value > $1.value }
+        mostPopularAnimal = sortedChoices.first?.key
         
     }
 }
+
+
+
+
